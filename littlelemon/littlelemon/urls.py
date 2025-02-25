@@ -14,24 +14,22 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin # type: ignore
-from django.urls import path, include # type: ignore
+from django.contrib import admin
+from django.urls import path, include
+from rest_framework import routers
+from rest_framework.authtoken.views import obtain_auth_token
+from restaurant import views
 
-from rest_framework.routers import DefaultRouter # type: ignore
-from restaurant import views # type: ignore
-from rest_framework import routers # type: ignore
-from rest_framework.authtoken.views import obtain_auth_token # type: ignore
-from restaurant.views import index # type: ignore
-
+# Set up the DefaultRouter for the viewsets
 router = routers.DefaultRouter()
 router.register(r'tables', views.BookingViewSet)
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('restaurant/', include('restaurant.urls')),
-    path('restaurant/menu/',include('restaurant.urls')),
-    path('restaurant/booking/', include(router.urls)),
-    path('auth/', include('djoser.urls')),
-    path('auth/', include('djoser.urls.authtoken')),
+    path('restaurant/', include('restaurant.urls')),  # If you have specific URLs for 'restaurant'
+    path('restaurant/menu/', include('restaurant.urls')),  # Optional, remove if unnecessary
+    path('restaurant/booking/', include(router.urls)),  # URL for Booking ViewSet
+    path('auth/', include('djoser.urls')),  # Djoser auth views
+    path('auth/token/', include('djoser.urls.authtoken')),  # Djoser token views
+    path('api/', include('restaurant.urls')),  # API routing for your app
 ]
