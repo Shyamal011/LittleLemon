@@ -19,4 +19,4 @@ class Menu(models.Model):
     inventory = models.IntegerField(default=5, validators=[MinValueValidator(0)])  # added validator for inventory
 
     def __str__(self):
-        return f'{self.title}: ${self.price:.2f}'  # changed to snake_case
+        return f'{self.title}: {self.price}'  
