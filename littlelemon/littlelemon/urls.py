@@ -19,6 +19,7 @@ from django.urls import path, include
 from rest_framework import routers
 from rest_framework.authtoken.views import obtain_auth_token
 from restaurant import views
+from restaurant.views import CustomLogoutView
 
 # Set up the DefaultRouter for the viewsets
 router = routers.DefaultRouter()
@@ -31,5 +32,7 @@ urlpatterns = [
     path('restaurant/booking/', include(router.urls)),  # URL for Booking ViewSet
     path('auth/', include('djoser.urls')),  # Djoser auth views
     path('auth/token/', include('djoser.urls.authtoken')),  # Djoser token views
+    path('auth/token/login/', obtain_auth_token, name='token-login'),  # Custom URL for token login
+    path('auth/token/logout/', CustomLogoutView.as_view(), name='token-logout'),
     path('api/', include('restaurant.urls')),  # API routing for your app
 ]

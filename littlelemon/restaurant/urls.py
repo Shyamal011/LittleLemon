@@ -12,4 +12,6 @@ urlpatterns = [
 
     # Token authentication route
     path('api-token-auth/', obtain_auth_token, name='api_token_auth'),  # Token authentication endpoint
+
+    path('api/menu/', views.MenuItemView.as_view(), name='menu-list'),
 ]

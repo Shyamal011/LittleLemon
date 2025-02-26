@@ -5,7 +5,7 @@ from django.core.validators import MinValueValidator
 # Booking Model
 class Booking(models.Model):
     name = models.CharField(max_length=255)  # changed to snake_case
-    booking_date = models.DateField(default=timezone.now)  # changed to snake_case
+    booking_date = models.DateField(default=timezone.now().date())  # updated to remove timezone and return a date object
     no_of_guests = models.SmallIntegerField(default=10, validators=[MinValueValidator(1)])  # added validator for guests
 
     def __str__(self):
@@ -19,4 +19,4 @@ class Menu(models.Model):
     inventory = models.IntegerField(default=5, validators=[MinValueValidator(0)])  # added validator for inventory
 
     def __str__(self):
-        return f'{self.title}: {self.price}'  
+        return f'{self.title}: {self.price}'

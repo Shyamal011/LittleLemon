@@ -1,18 +1,25 @@
+# test_views.py
 from django.test import TestCase
+from rest_framework.test import APIClient
 from restaurant.models import Menu
 
-class MenuItemsViews(TestCase):
+class MenuViewsTest(TestCase):
     def setUp(self):
-        shakshuka = Menu.objects.create(dish='shakshuka', price=8.50, inventory=10)
-        Hummus = Menu.objects.create(dish='Hummus', price=5.00, inventory=20)
-    
-    def test_menu_items_list(self):
-        response = self.client.get('/menu/')
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'shakshuka')
-        self.assertContains(response, 'Hummus')
+        # Creating some menu items for testing
+        self.menu_item_1 = Menu.objects.create(title="IceCream", price=80, inventory=50)
+        self.menu_item_2 = Menu.objects.create(title="Shakshuka", price=150, inventory=20)
+        self.menu_item_3 = Menu.objects.create(title="Pizza", price=120, inventory=30)
 
-    def test_getall(self):
-        # URL to access the Menu API (assuming the URL pattern is named 'menu-list')
-        url = reverse('menu-list')  # Change 'menu-list' to match your URL name
-        response = self.client.get(url)
+        # Set up the API client
+        self.client = APIClient()
+        self.url = '/api/menu/'  # Ensure this matches the correct URL
+
+    def test_menu_items_list(self):
+        # Send a GET request to the menu endpoint
+        response = self.client.get(self.url)
+
+        # Check that the status code is 200 (OK)
+        self.assertEqual(response.status_code, 200)
+
+        # Check if the response contains 'Shakshuka'
+        self.assertContains(response, 'Shakshuka')
